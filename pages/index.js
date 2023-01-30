@@ -84,11 +84,16 @@ export async function getStaticProps() {
   const spravneCurrentDay = $spravne("h2:contains("+days[dayIndex]+")").closest('.elementor-widget-wrap')
   result.spravne.polevka1 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(1)').text()
   result.spravne.polevka2 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(2)').text()
-  result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-description').text()
-  result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-description').text()
-  result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-description').text()
-
-console.log(result)
+  if (dayIndex > 0) {
+    result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-description').text()
+    result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-description').text()
+    result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-description').text()
+  }
+  else {
+    result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-title').text()
+    result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-title').text()
+    result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-title').text()
+  }
 
   return {
     props: result,
@@ -119,7 +124,7 @@ export default function Home(props) {
         <p>{props.klub.jidlo2}</p>
         <p>{props.klub.jidlo3}</p>
 
-        <p><a href="https://www.klubcestovatelubrno.cz/denni-menu/">Správné místo</a></p>
+        <p><a href="https://www.spravnemisto.cz/denni-menu">Správné místo</a></p>
         <p>polévka 1: {props.spravne.polevka1}</p>
         <p>polévka 2: {props.spravne.polevka2}</p>
         <p>{props.spravne.jidlo1}</p>
