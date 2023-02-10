@@ -1,14 +1,12 @@
-import Head from 'next/head';
 import styles from '../styles/Home.module.css';
 import cheerio from 'cheerio'
 import axios from 'axios'
+import {decode} from 'iconv-lite'
 
-const loadData = async (url) => {
+const loadData = async (url, responseEncoding = 'utf8', responseType = 'text') => {
   const { data } = await axios.get(url, {
-    headers: {
-      // 'Accept-Encoding': 'application/json',
-      // 'Content-Type': 'application/json'
-    }
+    responseEncoding,
+    responseType
   })
 
   return data;
@@ -32,7 +30,7 @@ export async function getStaticProps() {
   const racekData = await loadData(urlRacek)
   const $racek = cheerio.load(racekData)
   days = ['PONDĚLÍ', 'ÚTERÝ', 'STŘEDA', 'ČTVRTEK', 'PÁTEK']
-  
+
   const currentDayTr = $racek(":contains("+days[dayIndex]+")").closest('tr')
   const polevkaTr = currentDayTr.next().next()
   result.racek.polevka = polevkaTr.text()
@@ -50,9 +48,9 @@ export async function getStaticProps() {
   // opice //////////////////////////////
   ///////////////////////////////////////
   const urlOpice = 'https://www.u3opic.cz/denni-menu/';
-  const opiceData = await loadData(urlOpice)
-  const $opice = cheerio.load(opiceData)
-  
+  const opiceData = await loadData(urlOpice, 'binary', 'arraybuffer')
+  const $opice = cheerio.load(decode(opiceData, 'win1250'))
+
   const menuItemsEl = $opice(".menu-items")
   result.opice.polevka = menuItemsEl.children('div:nth-child(2)').text()
   result.opice.jidlo1 = menuItemsEl.children('div:nth-child(3)').find('h4').text()
@@ -84,16 +82,9 @@ export async function getStaticProps() {
   const spravneCurrentDay = $spravne("h2:contains("+days[dayIndex]+")").closest('.elementor-widget-wrap')
   result.spravne.polevka1 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(1)').text()
   result.spravne.polevka2 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(2)').text()
-  if (dayIndex > 0) {
-    result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-description').text()
-    result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-description').text()
-    result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-description').text()
-  }
-  else {
-    result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-title').text()
-    result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-title').text()
-    result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-title').text()
-  }
+  result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-description').text()
+  result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-description').text()
+  result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-description').text()
 
   return {
     props: result,
@@ -131,17 +122,6 @@ export default function Home(props) {
         <p>{props.spravne.jidlo2}</p>
         <p>{props.spravne.jidlo3}</p>
       </main>
-
-      <footer>
-        <a
-          href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className={styles.logo} />
-        </a>
-      </footer>
 
       <style jsx>{`
         main {
