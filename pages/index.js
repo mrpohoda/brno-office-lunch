@@ -36,12 +36,16 @@ export async function getStaticProps() {
   result.racek.polevka = polevkaTr.text()
   const jidlo1Tr = polevkaTr.next().next()
   result.racek.jidlo1 = jidlo1Tr.children('td').eq(1).text()
+  result.racek.cena1 = jidlo1Tr.children('td').eq(2).text().replace(',-', ' Kč')
   const jidlo2Tr = jidlo1Tr.next()
   result.racek.jidlo2 = jidlo2Tr.children('td').eq(1).text()
+  result.racek.cena2 = jidlo2Tr.children('td').eq(2).text().replace(',-', ' Kč')
   const jidlo3Tr = jidlo2Tr.next()
   result.racek.jidlo3 = jidlo3Tr.children('td').eq(1).text()
+  result.racek.cena3 = jidlo3Tr.children('td').eq(2).text().replace(',-', ' Kč')
   const jidlo4Tr = jidlo3Tr.next()
   result.racek.jidlo4 = jidlo4Tr.children('td').eq(1).text()
+  result.racek.cena4 = jidlo4Tr.children('td').eq(2).text().replace(',-', ' Kč')
 
 
   ///////////////////////////////////////
@@ -54,8 +58,11 @@ export async function getStaticProps() {
   const menuItemsEl = $opice(".menu-items")
   result.opice.polevka = menuItemsEl.children('div:nth-child(2)').text()
   result.opice.jidlo1 = menuItemsEl.children('div:nth-child(3)').find('h4').text()
+  result.opice.cena1 = menuItemsEl.children('div:nth-child(3)').find('.price').text()
   result.opice.jidlo2 = menuItemsEl.children('div:nth-child(4)').find('h4').text()
+  result.opice.cena2 = menuItemsEl.children('div:nth-child(4)').find('.price').text()
   result.opice.jidlo3 = menuItemsEl.children('div:nth-child(5)').find('h4').text()
+  result.opice.cena3 = menuItemsEl.children('div:nth-child(5)').find('.price').text()
 
   ///////////////////////////////////////
   // klub ///////////////////////////////
@@ -83,8 +90,13 @@ export async function getStaticProps() {
   result.spravne.polevka1 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(1)').text()
   result.spravne.polevka2 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(2)').text()
   result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-description').text()
+  result.spravne.cena1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-price').text()
   result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-description').text()
+  result.spravne.cena2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-price').text()
   result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-description').text()
+  result.spravne.cena3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-price').text()
+  result.spravne.jidlo4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-description').text()
+  result.spravne.cena4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-price').text()
 
   return {
     props: result,
@@ -98,29 +110,30 @@ export default function Home(props) {
       <main>
         <p><a href="https://www.restauraceracek.cz/tydenni-menu/">Racek</a></p>
         <p>polévka: {props.racek.polevka}</p>
-        <p>{props.racek.jidlo1}</p>
-        <p>{props.racek.jidlo2}</p>
-        <p>{props.racek.jidlo3}</p>
-        <p>{props.racek.jidlo4}</p>
+        <p>{props.racek.jidlo1} ({props.racek.cena1})</p>
+        <p>{props.racek.jidlo2} ({props.racek.cena2})</p>
+        <p>{props.racek.jidlo3} ({props.racek.cena3})</p>
+        <p>{props.racek.jidlo4} ({props.racek.cena4})</p>
 
         <p><a href="https://www.u3opic.cz/denni-menu/">U 3 opic</a></p>
         <p>polévka: {props.opice.polevka}</p>
-        <p>{props.opice.jidlo1}</p>
-        <p>{props.opice.jidlo2}</p>
-        <p>{props.opice.jidlo3}</p>
+        <p>{props.opice.jidlo1} ({props.opice.cena1})</p>
+        <p>{props.opice.jidlo2} ({props.opice.cena2})</p>
+        <p>{props.opice.jidlo3} ({props.opice.cena3})</p>
 
         <p><a href="https://www.klubcestovatelubrno.cz/denni-menu/">Klub cestovatelů</a></p>
         <p>polévka: {props.klub.polevka}</p>
-        <p>{props.klub.jidlo1}</p>
-        <p>{props.klub.jidlo2}</p>
-        <p>{props.klub.jidlo3}</p>
+        <p>{props.klub.jidlo1} (149 Kč)</p>
+        <p>{props.klub.jidlo2} (154 Kč)</p>
+        <p>{props.klub.jidlo3} (159 Kč)</p>
 
         <p><a href="https://www.spravnemisto.cz/denni-menu">Správné místo</a></p>
         <p>polévka 1: {props.spravne.polevka1}</p>
         <p>polévka 2: {props.spravne.polevka2}</p>
-        <p>{props.spravne.jidlo1}</p>
-        <p>{props.spravne.jidlo2}</p>
-        <p>{props.spravne.jidlo3}</p>
+        <p>{props.spravne.jidlo1} ({props.spravne.cena1})</p>
+        <p>{props.spravne.jidlo2} ({props.spravne.cena2})</p>
+        <p>{props.spravne.jidlo3} ({props.spravne.cena3})</p>
+        <p>{props.spravne.jidlo4} ({props.spravne.cena4})</p>
       </main>
 
       <style jsx>{`
