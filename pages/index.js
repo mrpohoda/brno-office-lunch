@@ -98,6 +98,27 @@ export async function getStaticProps() {
   result.spravne.jidlo4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-description').text()
   result.spravne.cena4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-price').text()
 
+  Object.entries(result.racek).forEach(([key, value]) => {
+    if (value.includes('raj') || value.includes('Raj')) {
+      result.racek[key] = value + ' 🍅';
+    }
+  })
+  Object.entries(result.opice).forEach(([key, value]) => {
+    if (value.includes('raj') || value.includes('Raj')) {
+      result.opice[key] = value + ' 🍅';
+    }
+  })
+  Object.entries(result.spravne).forEach(([key, value]) => {
+    if (value.includes('raj') || value.includes('Raj')) {
+      result.spravne[key] = value + ' 🍅';
+    }
+  })
+  Object.entries(result.klub).forEach(([key, value]) => {
+    if (value.includes('raj') || value.includes('Raj')) {
+      result.klub[key] = value + ' 🍅';
+    }
+  })
+
   return {
     props: result,
     revalidate: 1, // rerun after X seconds
