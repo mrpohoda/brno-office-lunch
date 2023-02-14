@@ -3,6 +3,9 @@ import cheerio from 'cheerio'
 import axios from 'axios'
 import {decode} from 'iconv-lite'
 
+import Head from "next/head";
+import 'bootstrap/dist/css/bootstrap.css'
+
 const loadData = async (url, responseEncoding = 'utf8', responseType = 'text') => {
   const { data } = await axios.get(url, {
     responseEncoding,
@@ -36,16 +39,16 @@ export async function getStaticProps() {
   result.racek.polevka = polevkaTr.text()
   const jidlo1Tr = polevkaTr.next().next()
   result.racek.jidlo1 = jidlo1Tr.children('td').eq(1).text()
-  result.racek.cena1 = jidlo1Tr.children('td').eq(2).text().replace(',-', ' Kč')
+  result.racek.cena1 = jidlo1Tr.children('td').eq(2).text()
   const jidlo2Tr = jidlo1Tr.next()
   result.racek.jidlo2 = jidlo2Tr.children('td').eq(1).text()
-  result.racek.cena2 = jidlo2Tr.children('td').eq(2).text().replace(',-', ' Kč')
+  result.racek.cena2 = jidlo2Tr.children('td').eq(2).text()
   const jidlo3Tr = jidlo2Tr.next()
   result.racek.jidlo3 = jidlo3Tr.children('td').eq(1).text()
-  result.racek.cena3 = jidlo3Tr.children('td').eq(2).text().replace(',-', ' Kč')
+  result.racek.cena3 = jidlo3Tr.children('td').eq(2).text()
   const jidlo4Tr = jidlo3Tr.next()
   result.racek.jidlo4 = jidlo4Tr.children('td').eq(1).text()
-  result.racek.cena4 = jidlo4Tr.children('td').eq(2).text().replace(',-', ' Kč')
+  result.racek.cena4 = jidlo4Tr.children('td').eq(2).text()
 
 
   ///////////////////////////////////////
@@ -58,11 +61,11 @@ export async function getStaticProps() {
   const menuItemsEl = $opice(".menu-items")
   result.opice.polevka = menuItemsEl.children('div:nth-child(2)').text()
   result.opice.jidlo1 = menuItemsEl.children('div:nth-child(3)').find('h4').text()
-  result.opice.cena1 = menuItemsEl.children('div:nth-child(3)').find('.price').text()
+  result.opice.cena1 = menuItemsEl.children('div:nth-child(3)').find('.price').text().replace(' Kč', ',-')
   result.opice.jidlo2 = menuItemsEl.children('div:nth-child(4)').find('h4').text()
-  result.opice.cena2 = menuItemsEl.children('div:nth-child(4)').find('.price').text()
+  result.opice.cena2 = menuItemsEl.children('div:nth-child(4)').find('.price').text().replace(' Kč', ',-')
   result.opice.jidlo3 = menuItemsEl.children('div:nth-child(5)').find('h4').text()
-  result.opice.cena3 = menuItemsEl.children('div:nth-child(5)').find('.price').text()
+  result.opice.cena3 = menuItemsEl.children('div:nth-child(5)').find('.price').text().replace(' Kč', ',-')
 
   ///////////////////////////////////////
   // klub ///////////////////////////////
@@ -90,13 +93,13 @@ export async function getStaticProps() {
   result.spravne.polevka1 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(1)').text()
   result.spravne.polevka2 = spravneCurrentDay.children(':nth-child(3)').find('li:nth-child(2)').text()
   result.spravne.jidlo1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-description').text()
-  result.spravne.cena1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-price').text()
+  result.spravne.cena1 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(1)').find('.elementor-price-list-price').text().replace(' Kč', ',-')
   result.spravne.jidlo2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-description').text()
-  result.spravne.cena2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-price').text()
+  result.spravne.cena2 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(2)').find('.elementor-price-list-price').text().replace(' Kč', ',-')
   result.spravne.jidlo3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-description').text()
-  result.spravne.cena3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-price').text()
+  result.spravne.cena3 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(3)').find('.elementor-price-list-price').text().replace(' Kč', ',-')
   result.spravne.jidlo4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-description').text()
-  result.spravne.cena4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-price').text()
+  result.spravne.cena4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-price').text().replace(' Kč', ',-')
 
   Object.entries(result.racek).forEach(([key, value]) => {
     if (value.includes('raj') || value.includes('Raj')) {
@@ -127,86 +130,216 @@ export async function getStaticProps() {
 
 export default function Home(props) {
   return (
-    <div className={styles.container}>
-      <main>
-        <p><a href="https://www.restauraceracek.cz/tydenni-menu/">Racek</a></p>
-        <p>polévka: {props.racek.polevka}</p>
-        <p>{props.racek.jidlo1} ({props.racek.cena1})</p>
-        <p>{props.racek.jidlo2} ({props.racek.cena2})</p>
-        <p>{props.racek.jidlo3} ({props.racek.cena3})</p>
-        <p>{props.racek.jidlo4} ({props.racek.cena4})</p>
+    <>
+      <Head>
+         <meta name="viewport" content="width=device-width, initial-scale=1" />
+      </Head>
 
-        <p><a href="https://www.u3opic.cz/denni-menu/">U 3 opic</a></p>
-        <p>polévka: {props.opice.polevka}</p>
-        <p>{props.opice.jidlo1} ({props.opice.cena1})</p>
-        <p>{props.opice.jidlo2} ({props.opice.cena2})</p>
-        <p>{props.opice.jidlo3} ({props.opice.cena3})</p>
+      <div className="container">
+        <div className="row mb-3 mt-4">
+          <div className="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="container">
+                  <div class="row justify-content-start">
+                    <div class="col-4">
+                      Racek
+                    </div>
+                    <div class="col-8">
+                      <div class="text-end">774 052 002 - <a href="https://www.restauraceracek.cz/tydenni-menu/">web</a></div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+              <div class="card-body">
+                <h6 class="ms-2">
+                  <small class="text-muted">{props.racek.polevka}</small>
+                </h6>
+                <table class="table table-hover card-1 p-4">
+                  <thead>
+                    <tr>
+                      <td scope="col">
+                        <span class="ml-8 small">Název</span>
+                      </td>
+                      <td scope="col">
+                        <span class="ml-4 small">Cena</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{props.racek.jidlo1}</td>
+                      <td>{props.racek.cena1}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.racek.jidlo2}</td>
+                      <td>{props.racek.cena2}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.racek.jidlo3}</td>
+                      <td>{props.racek.cena3}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.racek.jidlo4}</td>
+                      <td>{props.racek.cena4}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="container">
+                  <div class="row justify-content-start">
+                    <div class="col-4">
+                      U 3 opic
+                    </div>
+                    <div class="col-8">
+                      <div class="text-end">774 959 555 - <a href="https://www.u3opic.cz/denni-menu/">web</a></div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+              <div class="card-body">
+                <h6 class="ms-2">
+                  <small class="text-muted">{props.opice.polevka}</small>
+                </h6>
+                <table class="table table-hover card-1 p-4">
+                  <thead>
+                    <tr>
+                      <td scope="col">
+                        <span class="ml-8 small">Název</span>
+                      </td>
+                      <td scope="col">
+                        <span class="ml-4 small">Cena</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{props.opice.jidlo1}</td>
+                      <td>{props.opice.cena1}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.opice.jidlo2}</td>
+                      <td>{props.opice.cena2}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.opice.jidlo3}</td>
+                      <td>{props.opice.cena3}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
 
-        <p><a href="https://www.klubcestovatelubrno.cz/denni-menu/">Klub cestovatelů</a></p>
-        <p>polévka: {props.klub.polevka}</p>
-        <p>{props.klub.jidlo1} (149 Kč)</p>
-        <p>{props.klub.jidlo2} (154 Kč)</p>
-        <p>{props.klub.jidlo3} (159 Kč)</p>
-
-        <p><a href="https://www.spravnemisto.cz/denni-menu">Správné místo</a></p>
-        <p>polévka 1: {props.spravne.polevka1}</p>
-        <p>polévka 2: {props.spravne.polevka2}</p>
-        <p>{props.spravne.jidlo1} ({props.spravne.cena1})</p>
-        <p>{props.spravne.jidlo2} ({props.spravne.cena2})</p>
-        <p>{props.spravne.jidlo3} ({props.spravne.cena3})</p>
-        <p>{props.spravne.jidlo4} ({props.spravne.cena4})</p>
-      </main>
-
-      <style jsx>{`
-        main {
-          padding: 5rem 0;
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: center;
-          align-items: center;
-        }
-        footer {
-          width: 100%;
-          height: 100px;
-          border-top: 1px solid #eaeaea;
-          display: flex;
-          justify-content: center;
-          align-items: center;
-        }
-        footer img {
-          margin-left: 0.5rem;
-        }
-        footer a {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          text-decoration: none;
-          color: inherit;
-        }
-        code {
-          background: #fafafa;
-          border-radius: 5px;
-          padding: 0.75rem;
-          font-size: 1.1rem;
-          font-family: Menlo, Monaco, Lucida Console, Liberation Mono,
-            DejaVu Sans Mono, Bitstream Vera Sans Mono, Courier New, monospace;
-        }
-      `}</style>
-
-      <style jsx global>{`
-        html,
-        body {
-          padding: 0;
-          margin: 0;
-          font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto,
-            Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue,
-            sans-serif;
-        }
-        * {
-          box-sizing: border-box;
-        }
-      `}</style>
-    </div>
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="container">
+                  <div class="row justify-content-start">
+                    <div class="col-4">
+                      Klub cestovatelů
+                    </div>
+                    <div class="col-8">
+                      <div class="text-end">774 048 589 - <a href="https://www.klubcestovatelubrno.cz/denni-menu/">web</a></div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+              <div class="card-body">
+                <h6 class="ms-2">
+                  <small class="text-muted">{props.klub.polevka}</small>
+                </h6>
+                <table class="table table-hover card-1 p-4">
+                  <thead>
+                    <tr>
+                      <td scope="col">
+                        <span class="ml-8 small">Název</span>
+                      </td>
+                      <td scope="col">
+                        <span class="ml-4 small">Cena</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{props.klub.jidlo1}</td>
+                      <td>149,-</td>
+                    </tr>
+                    <tr>
+                      <td>{props.klub.jidlo2}</td>
+                      <td>154,-</td>
+                    </tr>
+                    <tr>
+                      <td>{props.klub.jidlo3}</td>
+                      <td>159,-</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="container">
+                  <div class="row justify-content-start">
+                    <div class="col-4">
+                      Správné místo
+                    </div>
+                    <div class="col-8">
+                      <div class="text-end">515 542 979 - <a href="https://www.spravnemisto.cz/denni-menu">web</a></div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+              <div class="card-body">
+                <h6 class="ms-2">
+                  <small class="text-muted">{props.spravne.polevka1}</small>
+                  <br />
+                  <small class="text-muted">{props.spravne.polevka2}</small>
+                </h6>
+                <table class="table table-hover card-1 p-4">
+                  <thead>
+                    <tr>
+                      <td scope="col">
+                        <span class="ml-8 small">Název</span>
+                      </td>
+                      <td scope="col">
+                        <span class="ml-4 small">Cena</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{props.spravne.jidlo1}</td>
+                      <td>{props.spravne.cena1}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.spravne.jidlo2}</td>
+                      <td>{props.spravne.cena2}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.spravne.jidlo3}</td>
+                      <td>{props.spravne.cena3}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.spravne.jidlo4}</td>
+                      <td>{props.spravne.cena4}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   )
 }
