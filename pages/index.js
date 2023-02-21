@@ -20,7 +20,8 @@ export async function getStaticProps() {
     racek: {},
     opice: {},
     klub: {},
-    spravne: {}
+    spravne: {},
+    nepal: {}
   };
 
   let days = []
@@ -101,6 +102,25 @@ export async function getStaticProps() {
   result.spravne.jidlo4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-description').text()
   result.spravne.cena4 = spravneCurrentDay.children(':nth-child(4)').find('li:nth-child(4)').find('.elementor-price-list-price').text().replace(' Kč', ',-')
 
+  ///////////////////////////////////////
+  // nepal //////////////////////////////
+  ///////////////////////////////////////
+  const urlNepal = 'https://nepalbrno.cz/weekly-menu/';
+  const nepalData = await loadData(urlNepal)
+  const $nepal = cheerio.load(nepalData)
+  days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday']
+
+  const nepalCurrentDay = $nepal("span:contains("+days[dayIndex]+")").closest('tr')
+  result.nepal.polevka = nepalCurrentDay.next().text().replace('Polévka: ', '')
+  result.nepal.jidlo1 = nepalCurrentDay.next().next().find('td:nth-child(1)').text().replace('1.', '')
+  result.nepal.cena1 = nepalCurrentDay.next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.nepal.jidlo2 = nepalCurrentDay.next().next().next().find('td:nth-child(1)').text().replace('2.', '')
+  result.nepal.cena2 = nepalCurrentDay.next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.nepal.jidlo3 = nepalCurrentDay.next().next().next().next().find('td:nth-child(1)').text().replace('3.', '')
+  result.nepal.cena3 = nepalCurrentDay.next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.nepal.jidlo4 = nepalCurrentDay.next().next().next().next().next().find('td:nth-child(1)').text().replace('4.', '')
+  result.nepal.cena4 = nepalCurrentDay.next().next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+
   Object.entries(result.racek).forEach(([key, value]) => {
     if (value.toLowerCase().includes('raj')) {
       result.racek[key] = value + ' 🍅';
@@ -119,6 +139,11 @@ export async function getStaticProps() {
   Object.entries(result.klub).forEach(([key, value]) => {
     if (value.toLowerCase().includes('raj')) {
       result.klub[key] = value + ' 🍅';
+    }
+  })
+  Object.entries(result.nepal).forEach(([key, value]) => {
+    if (value.toLowerCase().includes('raj')) {
+      result.nepal[key] = value + ' 🍅';
     }
   })
 
@@ -337,6 +362,64 @@ export default function Home(props) {
                 </table>
               </div>
             </div>
+          </div>
+        </div>
+      
+
+        <div className="row mb-3">
+          <div className="col-md-6">
+            <div class="card">
+              <div class="card-header">
+                <div class="container">
+                  <div class="row justify-content-start">
+                    <div class="col-4">
+                      Nepal
+                    </div>
+                    <div class="col-8">
+                      <div class="text-end">774 184 422 - <a href="https://nepalbrno.cz/weekly-menu/">web</a></div>
+                    </div>
+                  </div>
+                </div>                
+              </div>
+              <div class="card-body">
+                <h6 class="ms-2">
+                  <small class="text-muted">{props.nepal.polevka}</small>
+                </h6>
+                <table class="table table-hover card-1 p-4">
+                  <thead>
+                    <tr>
+                      <td scope="col">
+                        <span class="ml-8 small">Název</span>
+                      </td>
+                      <td scope="col">
+                        <span class="ml-4 small">Cena</span>
+                      </td>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>{props.nepal.jidlo1}</td>
+                      <td>{props.nepal.cena1}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.nepal.jidlo2}</td>
+                      <td>{props.nepal.cena2}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.nepal.jidlo3}</td>
+                      <td>{props.nepal.cena3}</td>
+                    </tr>
+                    <tr>
+                      <td>{props.nepal.jidlo4}</td>
+                      <td>{props.nepal.cena4}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div className="col-md-6">
+            
           </div>
         </div>
       </div>
