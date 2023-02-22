@@ -149,7 +149,7 @@ export async function getStaticProps() {
 
   return {
     props: result,
-    revalidate: false, // rerun after X seconds
+    revalidate: 1, // rerun after X seconds
   }
 }
 
