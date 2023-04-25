@@ -7,6 +7,8 @@ import Head from "next/head";
 import 'bootstrap/dist/css/bootstrap.css'
 
 const loadData = async (url, responseEncoding = 'utf8', responseType = 'text') => {
+  // append random timestamp to url to disable axios cache
+  url = url + '?timestamp=' + new Date().getTime();
   const { data } = await axios.get(url, {
     responseEncoding,
     responseType
@@ -149,7 +151,7 @@ export async function getStaticProps() {
 
   return {
     props: result,
-    revalidate: 1, // rerun after X seconds
+    revalidate: 60, // rerun after X seconds
   }
 }
 
@@ -163,31 +165,31 @@ export default function Home(props) {
       <div className="container">
         <div className="row mb-3 mt-4">
           <div className="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="container">
-                  <div class="row justify-content-start">
-                    <div class="col-4">
+            <div className="card">
+              <div className="card-header">
+                <div className="container">
+                  <div className="row justify-content-start">
+                    <div className="col-4">
                       Racek
                     </div>
-                    <div class="col-8">
-                      <div class="text-end">774 052 002 - <a href="https://www.restauraceracek.cz/tydenni-menu/">web</a></div>
+                    <div className="col-8">
+                      <div className="text-end">774 052 002 - <a href="https://www.restauraceracek.cz/tydenni-menu/">web</a></div>
                     </div>
                   </div>
                 </div>                
               </div>
-              <div class="card-body">
-                <h6 class="ms-2">
-                  <small class="text-muted">{props.racek.polevka}</small>
+              <div className="card-body">
+                <h6 className="ms-2">
+                  <small className="text-muted">{props.racek.polevka}</small>
                 </h6>
-                <table class="table table-hover card-1 p-4">
+                <table className="table table-hover card-1 p-4">
                   <thead>
                     <tr>
                       <td scope="col">
-                        <span class="ml-8 small">Název</span>
+                        <span className="ml-8 small">Název</span>
                       </td>
                       <td scope="col">
-                        <span class="ml-4 small">Cena</span>
+                        <span className="ml-4 small">Cena</span>
                       </td>
                     </tr>
                   </thead>
@@ -214,31 +216,31 @@ export default function Home(props) {
             </div>
           </div>
           <div className="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="container">
-                  <div class="row justify-content-start">
-                    <div class="col-4">
+            <div className="card">
+              <div className="card-header">
+                <div className="container">
+                  <div className="row justify-content-start">
+                    <div className="col-4">
                       U 3 opic
                     </div>
-                    <div class="col-8">
-                      <div class="text-end">774 959 555 - <a href="https://www.u3opic.cz/denni-menu/">web</a></div>
+                    <div className="col-8">
+                      <div className="text-end">774 959 555 - <a href="https://www.u3opic.cz/denni-menu/">web</a></div>
                     </div>
                   </div>
                 </div>                
               </div>
-              <div class="card-body">
-                <h6 class="ms-2">
-                  <small class="text-muted">{props.opice.polevka}</small>
+              <div className="card-body">
+                <h6 className="ms-2">
+                  <small className="text-muted">{props.opice.polevka}</small>
                 </h6>
-                <table class="table table-hover card-1 p-4">
+                <table className="table table-hover card-1 p-4">
                   <thead>
                     <tr>
                       <td scope="col">
-                        <span class="ml-8 small">Název</span>
+                        <span className="ml-8 small">Název</span>
                       </td>
                       <td scope="col">
-                        <span class="ml-4 small">Cena</span>
+                        <span className="ml-4 small">Cena</span>
                       </td>
                     </tr>
                   </thead>
@@ -264,31 +266,31 @@ export default function Home(props) {
 
         <div className="row mb-3">
           <div className="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="container">
-                  <div class="row justify-content-start">
-                    <div class="col-4">
+            <div className="card">
+              <div className="card-header">
+                <div className="container">
+                  <div className="row justify-content-start">
+                    <div className="col-4">
                       Klub cestovatelů
                     </div>
-                    <div class="col-8">
-                      <div class="text-end">774 048 589 - <a href="https://www.klubcestovatelubrno.cz/denni-menu/">web</a></div>
+                    <div className="col-8">
+                      <div className="text-end">774 048 589 - <a href="https://www.klubcestovatelubrno.cz/denni-menu/">web</a></div>
                     </div>
                   </div>
                 </div>                
               </div>
-              <div class="card-body">
-                <h6 class="ms-2">
-                  <small class="text-muted">{props.klub.polevka}</small>
+              <div className="card-body">
+                <h6 className="ms-2">
+                  <small className="text-muted">{props.klub.polevka}</small>
                 </h6>
-                <table class="table table-hover card-1 p-4">
+                <table className="table table-hover card-1 p-4">
                   <thead>
                     <tr>
                       <td scope="col">
-                        <span class="ml-8 small">Název</span>
+                        <span className="ml-8 small">Název</span>
                       </td>
                       <td scope="col">
-                        <span class="ml-4 small">Cena</span>
+                        <span className="ml-4 small">Cena</span>
                       </td>
                     </tr>
                   </thead>
@@ -311,33 +313,33 @@ export default function Home(props) {
             </div>
           </div>
           <div className="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="container">
-                  <div class="row justify-content-start">
-                    <div class="col-4">
+            <div className="card">
+              <div className="card-header">
+                <div className="container">
+                  <div className="row justify-content-start">
+                    <div className="col-4">
                       Správné místo
                     </div>
-                    <div class="col-8">
-                      <div class="text-end">515 542 979 - <a href="https://www.spravnemisto.cz/denni-menu">web</a></div>
+                    <div className="col-8">
+                      <div className="text-end">515 542 979 - <a href="https://www.spravnemisto.cz/denni-menu">web</a></div>
                     </div>
                   </div>
                 </div>                
               </div>
-              <div class="card-body">
-                <h6 class="ms-2">
-                  <small class="text-muted">{props.spravne.polevka1}</small>
+              <div className="card-body">
+                <h6 className="ms-2">
+                  <small className="text-muted">{props.spravne.polevka1}</small>
                   <br />
-                  <small class="text-muted">{props.spravne.polevka2}</small>
+                  <small className="text-muted">{props.spravne.polevka2}</small>
                 </h6>
-                <table class="table table-hover card-1 p-4">
+                <table className="table table-hover card-1 p-4">
                   <thead>
                     <tr>
                       <td scope="col">
-                        <span class="ml-8 small">Název</span>
+                        <span className="ml-8 small">Název</span>
                       </td>
                       <td scope="col">
-                        <span class="ml-4 small">Cena</span>
+                        <span className="ml-4 small">Cena</span>
                       </td>
                     </tr>
                   </thead>
@@ -368,31 +370,31 @@ export default function Home(props) {
 
         <div className="row mb-3">
           <div className="col-md-6">
-            <div class="card">
-              <div class="card-header">
-                <div class="container">
-                  <div class="row justify-content-start">
-                    <div class="col-4">
+            <div className="card">
+              <div className="card-header">
+                <div className="container">
+                  <div className="row justify-content-start">
+                    <div className="col-4">
                       Nepal
                     </div>
-                    <div class="col-8">
-                      <div class="text-end">774 184 422 - <a href="https://nepalbrno.cz/weekly-menu/">web</a></div>
+                    <div className="col-8">
+                      <div className="text-end">774 184 422 - <a href="https://nepalbrno.cz/weekly-menu/">web</a></div>
                     </div>
                   </div>
                 </div>                
               </div>
-              <div class="card-body">
-                <h6 class="ms-2">
-                  <small class="text-muted">{props.nepal.polevka}</small>
+              <div className="card-body">
+                <h6 className="ms-2">
+                  <small className="text-muted">{props.nepal.polevka}</small>
                 </h6>
-                <table class="table table-hover card-1 p-4">
+                <table className="table table-hover card-1 p-4">
                   <thead>
                     <tr>
                       <td scope="col">
-                        <span class="ml-8 small">Název</span>
+                        <span className="ml-8 small">Název</span>
                       </td>
                       <td scope="col">
-                        <span class="ml-4 small">Cena</span>
+                        <span className="ml-4 small">Cena</span>
                       </td>
                     </tr>
                   </thead>
