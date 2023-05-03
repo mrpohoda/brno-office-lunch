@@ -3,11 +3,9 @@ import axios from 'axios'
 import {decode} from 'iconv-lite'
 import 'bootstrap/dist/css/bootstrap.css'
 
-export const revalidate = 60
+export const revalidate = 0
 
 const loadData = async (url, responseEncoding = 'utf8', responseType = 'text') => {
-    // append random timestamp to url to disable axios cache
-    url = url + '?timestamp=' + new Date().getTime();
     const {data} = await axios.get(url, {
         responseEncoding,
         responseType
