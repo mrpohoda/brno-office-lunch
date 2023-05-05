@@ -1,7 +1,6 @@
 import cheerio from "cheerio";
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
-import {normalizePrice} from "../utils/normalize";
 import {normalize} from "../utils/normalize";
 
 async function getResult() {
@@ -17,16 +16,16 @@ async function getResult() {
 
     const menu1El = soupEL.next()
     result.menu1 = normalize(removeFirst(menu1El.children('td').eq(0).text()))
-    result.price1 = normalizePrice(fixPrice(menu1El.children('td').eq(1).text()))
+    result.price1 = fixPrice(menu1El.children('td').eq(1).text())
     const menu2El = menu1El.next()
     result.menu2 = normalize(removeFirst(menu2El.children('td').eq(0).text()))
-    result.price2 = normalizePrice(fixPrice(menu2El.children('td').eq(1).text()))
+    result.price2 = fixPrice(menu2El.children('td').eq(1).text())
     const menu3El = menu2El.next()
     result.menu3 = normalize(removeFirst(menu3El.children('td').eq(0).text()))
-    result.price3 = normalizePrice(fixPrice(menu3El.children('td').eq(1).text()))
+    result.price3 = fixPrice(menu3El.children('td').eq(1).text())
     const menu4El = menu3El.next()
     result.menu4 = normalize(removeFirst(menu4El.children('td').eq(0).text()))
-    result.price4 = normalizePrice(fixPrice(menu4El.children('td').eq(1).text()))
+    result.price4 = fixPrice(menu4El.children('td').eq(1).text())
 
     markTomato(result)
 
