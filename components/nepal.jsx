@@ -42,7 +42,7 @@ export async function Nepal() {
                 </div>
                 <div className="col-8">
                   <div className="text-end">774 184 422 - <a
-                      href="https://nepalbrno.cz/weekly-menu/">web</a></div>
+                      href="https://nepalbrno.cz/weekly-menu/" target="_blank">web</a></div>
                 </div>
               </div>
             </div>
