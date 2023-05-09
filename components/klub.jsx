@@ -1,6 +1,7 @@
 import cheerio from "cheerio";
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
+import {normalize} from "../utils/normalize";
 
 async function getResult() {
   let result = {}
@@ -12,7 +13,7 @@ async function getResult() {
   const $klub = cheerio.load(klubData)
 
   const klubCurrentDay = $klub("h3:contains(" + days[dayIndex] + ")")
-  result.polevka = klubCurrentDay.next().text()
+  result.polevka = normalize(klubCurrentDay.next().text())
   result.jidlo1 = klubCurrentDay.next().next().children(':nth-child(1)').text()
   result.jidlo2 = klubCurrentDay.next().next().children(':nth-child(2)').text()
   result.jidlo3 = klubCurrentDay.next().next().children(':nth-child(3)').text()
@@ -36,7 +37,7 @@ export async function Klub() {
                 </div>
                 <div className="col-8">
                   <div className="text-end">774 048 589 - <a
-                      href="https://www,klubcestovatelubrno.cz/denni-menu/">web</a></div>
+                      href="https://www.klubcestovatelubrno.cz/denni-menu/" target="_blank">web</a></div>
                 </div>
               </div>
             </div>

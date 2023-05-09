@@ -47,7 +47,7 @@ export async function Racek() {
                 </div>
                 <div className="col-8">
                   <div className="text-end">774 052 002 - <a
-                      href="https://www.restauraceracek.cz/tydenni-menu/">web</a></div>
+                      href="https://www.restauraceracek.cz/tydenni-menu/" target="_blank">web</a></div>
                 </div>
               </div>
             </div>

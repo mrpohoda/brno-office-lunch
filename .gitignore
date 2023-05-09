@@ -55,3 +55,6 @@ config.ide.TEST.js
 
 id_rsa
 
+.yarn
+.yarnrc.yml
+

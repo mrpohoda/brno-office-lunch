@@ -12,11 +12,11 @@ async function getResult() {
 
   const menuItemsEl = $opice(".menu-items")
   result.polevka = menuItemsEl.children('div:nth-child(2)').text()
-  result.jidlo1 = menuItemsEl.children('div:nth-child(3)').find('h4').text()
+  result.jidlo1 = removeFirst(menuItemsEl.children('div:nth-child(3)').find('h4').text())
   result.cena1 = menuItemsEl.children('div:nth-child(3)').find('.price').text().replace(' Kč', ',-')
-  result.jidlo2 = menuItemsEl.children('div:nth-child(4)').find('h4').text()
+  result.jidlo2 = removeFirst(menuItemsEl.children('div:nth-child(4)').find('h4').text())
   result.cena2 = menuItemsEl.children('div:nth-child(4)').find('.price').text().replace(' Kč', ',-')
-  result.jidlo3 = menuItemsEl.children('div:nth-child(5)').find('h4').text()
+  result.jidlo3 = removeFirst(menuItemsEl.children('div:nth-child(5)').find('h4').text())
   result.cena3 = menuItemsEl.children('div:nth-child(5)').find('.price').text().replace(' Kč', ',-')
 
   markTomato(result)
@@ -24,6 +24,9 @@ async function getResult() {
   return result
 }
 
+function removeFirst(text) {
+  return text.substring(text.indexOf(" ") + 1);
+}
 
 export async function Opice() {
   const result = await getResult()
@@ -39,7 +42,7 @@ export async function Opice() {
                 </div>
                 <div className="col-8">
                   <div className="text-end">774 959 555 - <a
-                      href="https://www.u3opic.cz/denni-menu/">web</a></div>
+                      href="https://www.u3opic.cz/denni-menu/" target="_blank">web</a></div>
                 </div>
               </div>
             </div>

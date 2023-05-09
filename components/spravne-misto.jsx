@@ -10,7 +10,7 @@ export async function SpravneMisto() {
                 </div>
                 <div className="col-8">
                   <div className="text-end">515 542 979 - <a
-                      href="https://www.spravnemisto.cz/denni-menu">web</a></div>
+                      href="https://www.spravnemisto.cz/denni-menu" target="_blank">web</a></div>
                 </div>
               </div>
             </div>
