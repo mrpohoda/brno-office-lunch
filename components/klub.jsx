@@ -14,9 +14,9 @@ async function getResult() {
 
   const klubCurrentDay = $klub("h3:contains(" + days[dayIndex] + ")")
   result.polevka = normalize(klubCurrentDay.next().text())
-  result.jidlo1 = klubCurrentDay.next().next().children(':nth-child(1)').text()
-  result.jidlo2 = klubCurrentDay.next().next().children(':nth-child(2)').text()
-  result.jidlo3 = klubCurrentDay.next().next().children(':nth-child(3)').text()
+  result.jidlo1 = klubCurrentDay.nextAll('ol').first().children(':nth-child(1)').text()
+  result.jidlo2 = klubCurrentDay.nextAll('ol').first().children(':nth-child(2)').text()
+  result.jidlo3 = klubCurrentDay.nextAll('ol').first().children(':nth-child(3)').text()
 
   markTomato(result)
 
