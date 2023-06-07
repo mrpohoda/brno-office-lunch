@@ -11,7 +11,7 @@ async function getResult() {
   const nepalData = await loadData(urlNepal)
   const $nepal = cheerio.load(nepalData)
 
-  const nepalCurrentDay = $nepal("span:contains(" + days[dayIndex] + ")").closest('tr')
+  const nepalCurrentDay = $nepal("strong:contains(" + days[dayIndex] + ")").closest('tr')
   result.polevka = nepalCurrentDay.next().text().replace('Polévka: ', '')
   result.jidlo1 = nepalCurrentDay.next().next().find('td:nth-child(1)').text().replace('1.', '')
   result.cena1 = nepalCurrentDay.next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
