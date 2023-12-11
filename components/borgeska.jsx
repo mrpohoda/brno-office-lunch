@@ -4,32 +4,40 @@ import {markTomato} from "../utils/tomato";
 import {normalize} from "../utils/normalize";
 
 async function getResult() {
-    const urlBorgeska = 'https://menubrno.cz/restaurace/0295-restaurace-borgeska';
-    const borgeskaData = await loadData(urlBorgeska)
-    const $borgeska = cheerio.load(borgeskaData)
+    try {
+        const res = await axios.post(url, data);
+        console.log(res.data); // .then
 
-    let result = {}
-    const menuDiv = $borgeska("#home > div > section > div > div > table > tbody").closest("tbody")
-    const soupEL = menuDiv.children("tr")
+        const urlBorgeska = 'https://menubrno.cz/restaurace/0295-restaurace-borgeska';
+        const borgeskaData = await loadData(urlBorgeska)
+        const $borgeska = cheerio.load(borgeskaData)
 
-    result.soup = normalize(soupEL.children('td').eq(0).text())
+        let result = {}
+        const menuDiv = $borgeska("#home > div > section > div > div > table > tbody").closest("tbody")
+        const soupEL = menuDiv.children("tr")
 
-    const menu1El = soupEL.next()
-    result.menu1 = normalize(removeFirst(menu1El.children('td').eq(0).text()))
-    result.price1 = fixPrice(menu1El.children('td').eq(1).text())
-    const menu2El = menu1El.next()
-    result.menu2 = normalize(removeFirst(menu2El.children('td').eq(0).text()))
-    result.price2 = fixPrice(menu2El.children('td').eq(1).text())
-    const menu3El = menu2El.next()
-    result.menu3 = normalize(removeFirst(menu3El.children('td').eq(0).text()))
-    result.price3 = fixPrice(menu3El.children('td').eq(1).text())
-    const menu4El = menu3El.next()
-    result.menu4 = normalize(removeFirst(menu4El.children('td').eq(0).text()))
-    result.price4 = fixPrice(menu4El.children('td').eq(1).text())
+        result.soup = normalize(soupEL.children('td').eq(0).text())
 
-    markTomato(result)
+        const menu1El = soupEL.next()
+        result.menu1 = normalize(removeFirst(menu1El.children('td').eq(0).text()))
+        result.price1 = fixPrice(menu1El.children('td').eq(1).text())
+        const menu2El = menu1El.next()
+        result.menu2 = normalize(removeFirst(menu2El.children('td').eq(0).text()))
+        result.price2 = fixPrice(menu2El.children('td').eq(1).text())
+        const menu3El = menu2El.next()
+        result.menu3 = normalize(removeFirst(menu3El.children('td').eq(0).text()))
+        result.price3 = fixPrice(menu3El.children('td').eq(1).text())
+        const menu4El = menu3El.next()
+        result.menu4 = normalize(removeFirst(menu4El.children('td').eq(0).text()))
+        result.price4 = fixPrice(menu4El.children('td').eq(1).text())
 
-    return result
+        markTomato(result)
+
+        return result
+    } catch (error) {
+        console.log(error); // .catch
+        return {}
+    }
 }
 
 function removeFirst(text) {
