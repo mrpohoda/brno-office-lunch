@@ -11,7 +11,7 @@ async function getResult() {
   const nepalData = await loadData(urlNepal)
   const $nepal = cheerio.load(nepalData)
 
-  const nepalCurrentDay = $nepal("strong:contains(" + days[dayIndex] + ")").closest('tr')
+  const nepalCurrentDay = $nepal("span:contains(" + days[dayIndex] + ")").closest('tr')
   result.polevka = nepalCurrentDay.next().text().replace('Polévka: ', '')
   result.jidlo1 = nepalCurrentDay.next().next().find('td:nth-child(1)').text().replace('1.', '')
   result.cena1 = nepalCurrentDay.next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
@@ -21,6 +21,15 @@ async function getResult() {
   result.cena3 = nepalCurrentDay.next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
   result.jidlo4 = nepalCurrentDay.next().next().next().next().next().find('td:nth-child(1)').text().replace('4.', '')
   result.cena4 = nepalCurrentDay.next().next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.jidlo5 = nepalCurrentDay.next().next().next().next().next().next().find('td:nth-child(1)').text().replace('4.', '')
+  result.cena5 = nepalCurrentDay.next().next().next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.jidlo6 = nepalCurrentDay.next().next().next().next().next().next().next().find('td:nth-child(1)').text().replace('4.', '')
+  result.cena6 = nepalCurrentDay.next().next().next().next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.jidlo7 = nepalCurrentDay.next().next().next().next().next().next().next().next().find('td:nth-child(1)').text().replace('4.', '')
+  result.cena7 = nepalCurrentDay.next().next().next().next().next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+  result.jidlo8 = nepalCurrentDay.next().next().next().next().next().next().next().next().next().find('td:nth-child(1)').text().replace('4.', '')
+  result.cena8 = nepalCurrentDay.next().next().next().next().next().next().next().next().next().find('td:nth-child(2)').text().replace('Kč', ',-')
+
 
   markTomato(result)
 
@@ -78,6 +87,22 @@ export async function Nepal() {
               <tr>
                 <td>{result.jidlo4}</td>
                 <td>{result.cena4}</td>
+              </tr>
+              <tr>
+                <td>{result.jidlo5}</td>
+                <td>{result.cena5}</td>
+              </tr>
+              <tr>
+                <td>{result.jidlo6}</td>
+                <td>{result.cena6}</td>
+              </tr>
+              <tr>
+                <td>{result.jidlo7}</td>
+                <td>{result.cena7}</td>
+              </tr>
+              <tr>
+                <td>{result.jidlo8}</td>
+                <td>{result.cena8}</td>
               </tr>
               </tbody>
             </table>

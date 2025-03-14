@@ -6,7 +6,7 @@ import {normalize} from "../utils/normalize";
 async function getResult() {
   let result = {}
   const dayIndex = new Date().getDay() - 1;
-  const days = ['Pondělí', 'Úterý', 'Středa', 'Čtvrtek', 'Pátek']
+  const days = ['pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek']
 
   const urlKlub = 'https://www.klubcestovatelubrno.cz/denni-menu/';
   const klubData = await loadData(urlKlub)

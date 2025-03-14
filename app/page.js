@@ -28,17 +28,17 @@ export default async function Home() {
                     <Klub />
                 </Suspense>
                 <Suspense fallback={<Loader />}>
-                    <Borgeska />
+                    <Nepal />
                 </Suspense>
             </div>
 
             <div className="row mb-3">
                 <Suspense fallback={<Loader />}>
-                    <Nepal />
+                    <Yvy />
+                    
                 </Suspense>
                 <Suspense fallback={<Loader />}>
-                    <Yvy />
-
+                    <Borgeska />
                 </Suspense>
             </div>
 
