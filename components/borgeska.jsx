@@ -1,4 +1,4 @@
-import cheerio from "cheerio";
+import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
 import {normalize} from "../utils/normalize";
