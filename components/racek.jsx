@@ -9,7 +9,7 @@ async function getResult() {
 
   let result = {}
   const dayIndex = new Date().getDay() - 1;
-  const days = ['Pondělí', 'ÚTERÝ', 'STŘEDA', 'ČTVRTEK', 'PÁTEK']
+  const days = ['PONDĚLÍ', 'ÚTERÝ', 'STŘEDA', 'ČTVRTEK', 'PÁTEK']
 
   const currentDayTr = $racek(":contains(" + days[dayIndex] + ")").closest('tr')
   const polevkaTr = currentDayTr.next().next()
