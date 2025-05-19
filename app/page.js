@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import {Racek} from "../components/racek";
 import {Opice} from "../components/opice";
-import {SpravneMisto} from "../components/spravne-misto";
 import {Yvy} from "../components/yvy";
 import {Klub} from "../components/klub";
 import {Nepal} from "../components/nepal";
@@ -44,7 +43,6 @@ export default async function Home() {
 
             <div className="row mb-3">
                 <Suspense fallback={<Loader />}>
-                    <SpravneMisto />
                 </Suspense>
             </div>
         </div>
