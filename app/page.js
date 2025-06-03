@@ -1,10 +1,8 @@
 import 'bootstrap/dist/css/bootstrap.css'
 import {Racek} from "../components/racek";
 import {Opice} from "../components/opice";
-import {Yvy} from "../components/yvy";
 import {Klub} from "../components/klub";
 import {Nepal} from "../components/nepal";
-import {Borgeska} from "../components/borgeska";
 import {Suspense} from "react";
 import {Loader} from "../components/loader";
 
@@ -28,21 +26,6 @@ export default async function Home() {
                 </Suspense>
                 <Suspense fallback={<Loader />}>
                     <Nepal />
-                </Suspense>
-            </div>
-
-            <div className="row mb-3">
-                <Suspense fallback={<Loader />}>
-                    <Yvy />
-                    
-                </Suspense>
-                <Suspense fallback={<Loader />}>
-                    <Borgeska />
-                </Suspense>
-            </div>
-
-            <div className="row mb-3">
-                <Suspense fallback={<Loader />}>
                 </Suspense>
             </div>
         </div>
