@@ -1,32 +1,36 @@
 import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
+import {ErrorCard} from "./error-card";
 
 async function getResult() {
   const urlRacek = 'https://www.restauraceracek.cz/tydenni-menu/';
   const racekData = await loadData(urlRacek)
+  if (!racekData) return null
+
   const $racek = cheerio.load(racekData)
 
-  let result = {}
   const dayIndex = new Date().getDay() - 1;
   const days = ['PONDĚLÍ', 'ÚTERÝ', 'STŘEDA', 'ČTVRTEK', 'PÁTEK']
 
-  const currentDayTr = $racek(":contains(" + days[dayIndex] + ")").closest('tr')
-  const polevkaTr = currentDayTr.next().next()
-  result.polevka = polevkaTr.text()
-  const jidlo1Tr = polevkaTr.next().next()
-  result.jidlo1 = jidlo1Tr.children('td').eq(1).text()
-  result.cena1 = jidlo1Tr.children('td').eq(2).text()
-  const jidlo2Tr = jidlo1Tr.next()
-  result.jidlo2 = jidlo2Tr.children('td').eq(1).text()
-  result.cena2 = jidlo2Tr.children('td').eq(2).text()
-  const jidlo3Tr = jidlo2Tr.next()
-  result.jidlo3 = jidlo3Tr.children('td').eq(1).text()
-  result.cena3 = jidlo3Tr.children('td').eq(2).text()
-  const jidlo4Tr = jidlo3Tr.next()
-  result.jidlo4 = jidlo4Tr.children('td').eq(1).text()
-  result.cena4 = jidlo4Tr.children('td').eq(2).text()
+  let inCurrentDay = false, soupFound = false, polevka = ''
+  const dishes = []
 
+  $racek('tr').each((i, tr) => {
+    const c = $racek(tr).children('td')
+    const col0 = c.eq(0).text().trim()
+    const col1 = c.eq(1).text().trim()
+    const col2 = c.eq(2).text().trim()
+
+    if (col1 === days[dayIndex] && col0 === '' && col2 === '') { inCurrentDay = true; return }
+    if (!inCurrentDay) return
+    if (days.includes(col1) && col0 === '' && col2 === '') return false  // příští den — stop
+
+    if (!soupFound && col1 && col0 === '' && col2 === '') { polevka = col1; soupFound = true; return }
+    if (col0 && col1 && col2) dishes.push({ name: col1, price: col2 })
+  })
+
+  const result = { polevka, dishes }
   markTomato(result)
 
   return result
@@ -34,59 +38,30 @@ async function getResult() {
 
 
 export async function Racek() {
-  const result = await getResult()
+  let result
+  try {
+    result = await getResult()
+  } catch {
+    return <ErrorCard name="Racek" />
+  }
+  if (!result) return <ErrorCard name="Racek" />
+  if (result.dishes.length === 0) return <ErrorCard name="Racek" message="Menu pro dnešní den není dostupné" phone="774 052 002" url="https://www.restauraceracek.cz/tydenni-menu/" />
 
   return (
       <div className="col-md-6">
-        <div className="card">
-          <div className="card-header">
-            <div className="container">
-              <div className="row justify-content-start">
-                <div className="col-4">
-                  Racek
-                </div>
-                <div className="col-8">
-                  <div className="text-end">774 052 002 - <a
-                      href="https://www.restauraceracek.cz/tydenni-menu/" target="_blank">web</a></div>
-                </div>
-              </div>
+        <div className="border-start border-3 border-danger ps-3 mb-4">
+          <div className="d-flex justify-content-between align-items-baseline mb-1">
+            <strong>Racek</strong>
+            <span className="text-muted small">774 052 002 · <a href="https://www.restauraceracek.cz/tydenni-menu/" target="_blank">web</a></span>
+          </div>
+          <hr className="mt-0 mb-2" />
+          {result.polevka && <div className="text-muted small mb-2">Polévka: {result.polevka}</div>}
+          {result.dishes.map((dish, i) => (
+            <div key={i} className="d-flex justify-content-between gap-2 mb-1">
+              <span>{dish.name}</span>
+              <span className="text-nowrap flex-shrink-0">{dish.price}</span>
             </div>
-          </div>
-          <div className="card-body">
-            <h6 className="ms-2">
-              <small className="text-muted">{result.polevka}</small>
-            </h6>
-            <table className="table table-hover card-1 p-4">
-              <thead>
-              <tr>
-                <td scope="col">
-                  <span className="ml-8 small">Název</span>
-                </td>
-                <td scope="col">
-                  <span className="ml-4 small">Cena</span>
-                </td>
-              </tr>
-              </thead>
-              <tbody>
-              <tr>
-                <td>{result.jidlo1}</td>
-                <td>{result.cena1}</td>
-              </tr>
-              <tr>
-                <td>{result.jidlo2}</td>
-                <td>{result.cena2}</td>
-              </tr>
-              <tr>
-                <td>{result.jidlo3}</td>
-                <td>{result.cena3}</td>
-              </tr>
-              <tr>
-                <td>{result.jidlo4}</td>
-                <td>{result.cena4}</td>
-              </tr>
-              </tbody>
-            </table>
-          </div>
+          ))}
         </div>
       </div>
   )
