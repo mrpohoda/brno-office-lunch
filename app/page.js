@@ -6,7 +6,7 @@ import {Nepal} from "../components/nepal";
 import {Suspense} from "react";
 import {Loader} from "../components/loader";
 
-export const revalidate = 0
+export const revalidate = 3600
 
 export default async function Home() {
     return (

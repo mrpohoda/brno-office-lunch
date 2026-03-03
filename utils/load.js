@@ -4,7 +4,8 @@ export const loadData = async (url, responseEncoding = 'utf8', responseType = 't
     try {
         const {data} = await axios.get(url, {
             responseEncoding,
-            responseType
+            responseType,
+            timeout: 8000
         })
         return data;
     } catch {

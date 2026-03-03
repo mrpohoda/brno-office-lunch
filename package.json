@@ -6,10 +6,10 @@
     "start": "next start"
   },
   "dependencies": {
-    "axios": "latest",
-    "bootstrap": "latest",
-    "cheerio": "latest",
-    "iconv-lite": "latest",
+    "axios": "1.8.3",
+    "bootstrap": "5.3.3",
+    "cheerio": "1.0.0",
+    "iconv-lite": "0.6.3",
     "next": "15.5.8",
     "react": "18.2.0",
     "react-dom": "18.2.0"

@@ -5,7 +5,7 @@ export function ErrorCard({ name, message = 'Menu není dostupné', phone, url }
                 <div className="d-flex justify-content-between align-items-baseline mb-1">
                     <strong>{name}</strong>
                     {phone && url && (
-                        <span className="text-muted small">{phone} · <a href={url} target="_blank">web</a></span>
+                        <span className="text-muted small">{phone} · <a href={url} target="_blank" rel="noopener noreferrer">web</a></span>
                     )}
                 </div>
                 <hr className="mt-0 mb-2" />

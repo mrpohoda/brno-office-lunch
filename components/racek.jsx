@@ -52,7 +52,7 @@ export async function Racek() {
         <div className="border-start border-3 border-danger ps-3 mb-4">
           <div className="d-flex justify-content-between align-items-baseline mb-1">
             <strong>Racek</strong>
-            <span className="text-muted small">774 052 002 · <a href="https://www.restauraceracek.cz/tydenni-menu/" target="_blank">web</a></span>
+            <span className="text-muted small">774 052 002 · <a href="https://www.restauraceracek.cz/tydenni-menu/" target="_blank" rel="noopener noreferrer">web</a></span>
           </div>
           <hr className="mt-0 mb-2" />
           {result.polevka && <div className="text-muted small mb-2">Polévka: {result.polevka}</div>}
