@@ -3,6 +3,7 @@ import {Racek} from "../components/racek";
 import {Opice} from "../components/opice";
 import {Klub} from "../components/klub";
 import {Nepal} from "../components/nepal";
+import {PadThai} from "../components/padthai";
 import {Suspense} from "react";
 import {Loader} from "../components/loader";
 
@@ -16,6 +17,7 @@ export default async function Home() {
                 <Suspense fallback={<Loader />}><Opice /></Suspense>
                 <Suspense fallback={<Loader />}><Klub /></Suspense>
                 <Suspense fallback={<Loader />}><Nepal /></Suspense>
+                <Suspense fallback={<Loader />}><PadThai /></Suspense>
             </div>
         </div>
     )
