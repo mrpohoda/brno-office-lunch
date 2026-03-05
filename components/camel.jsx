@@ -6,7 +6,8 @@ import axios from 'axios'
 const PROMPT = `Přečti týdenní jídelníček z tohoto obrázku.
 Vrať POUZE validní JSON v tomto formátu (bez markdown bloku, bez komentářů):
 {"1":{"polevka":"název polévky nebo prázdný řetězec","dishes":[{"name":"název jídla","price":"149,-"}]},"2":{},"3":{},"4":{},"5":{}}
-Klíče 1–5 odpovídají po–pá. Ceny formátuj jako "149,-". Pokud den nemá polévku, použij prázdný řetězec.`
+Klíče 1–5 odpovídají po–pá. Ceny formátuj jako "149,-". Pokud den nemá polévku, použij prázdný řetězec.
+DŮLEŽITÉ: V názvech jídel ani polévek NIKDY nepoužívej uvozovky (ani ", ani „, ani "). Pokud je v názvu uvozovka, vynech ji nebo nahraď apostrofem.`
 
 async function updateMenu(formData) {
     'use server'
