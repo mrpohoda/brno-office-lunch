@@ -27,14 +27,19 @@ async function updateMenu(formData) {
         })
 
         const text = response.content[0].text.trim()
-        const parsed = JSON.parse(text)
+        console.log('[Camel] Claude raw response:', text)
+
+        // Claude někdy obalí JSON do ```json...``` i přes instrukci — odstraníme wrapper
+        const jsonStr = text.replace(/^```(?:json)?\s*/i, '').replace(/\s*```\s*$/m, '').trim()
+        const parsed = JSON.parse(jsonStr)
         parsed.updatedAt = new Date().toISOString()
 
         const redis = getRedis()
         await redis.set('camel-menu', JSON.stringify(parsed), 'EX', 8 * 24 * 60 * 60)
         revalidatePath('/')
-    } catch {
-        // Parsování nebo API selhalo — menu zůstane beze změny
+        console.log('[Camel] Menu uloženo do Redis')
+    } catch (err) {
+        console.error('[Camel] updateMenu selhal:', err)
     }
 }
 
