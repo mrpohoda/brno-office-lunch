@@ -1,4 +1,4 @@
-import {kv} from '@vercel/kv'
+import {getRedis} from '../utils/redis'
 import {revalidatePath} from 'next/cache'
 import Anthropic from '@anthropic-ai/sdk'
 
@@ -30,7 +30,8 @@ async function updateMenu(formData) {
         const parsed = JSON.parse(text)
         parsed.updatedAt = new Date().toISOString()
 
-        await kv.set('camel-menu', parsed, {ex: 8 * 24 * 60 * 60})
+        const redis = getRedis()
+        await redis.set('camel-menu', JSON.stringify(parsed), 'EX', 8 * 24 * 60 * 60)
         revalidatePath('/')
     } catch {
         // Parsování nebo API selhalo — menu zůstane beze změny
@@ -39,16 +40,19 @@ async function updateMenu(formData) {
 
 async function clearMenu() {
     'use server'
-    await kv.del('camel-menu')
+    const redis = getRedis()
+    await redis.del('camel-menu')
     revalidatePath('/')
 }
 
 export async function Camel() {
     let menu = null
     try {
-        menu = await kv.get('camel-menu')
+        const redis = getRedis()
+        const raw = redis ? await redis.get('camel-menu') : null
+        menu = raw ? JSON.parse(raw) : null
     } catch {
-        // KV není dostupné (lokální vývoj bez env proměnných)
+        // Redis není dostupný (lokální vývoj bez env proměnných)
     }
 
     const dayIndex = new Date().getDay()
