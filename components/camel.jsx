@@ -1,6 +1,7 @@
 import {getRedis} from '../utils/redis'
 import {revalidatePath} from 'next/cache'
 import Anthropic from '@anthropic-ai/sdk'
+import axios from 'axios'
 
 const PROMPT = `Přečti týdenní jídelníček z tohoto obrázku.
 Vrať POUZE validní JSON v tomto formátu (bez markdown bloku, bez komentářů):
@@ -13,6 +14,11 @@ async function updateMenu(formData) {
     if (!imageUrl) return
 
     try {
+        // Facebook blokuje přímý přístup z Anthropic — stáhneme obrázek sami
+        const imageResponse = await axios.get(imageUrl, {responseType: 'arraybuffer', timeout: 15000})
+        const imageBase64 = Buffer.from(imageResponse.data).toString('base64')
+        const mediaType = imageResponse.headers['content-type']?.split(';')[0] || 'image/jpeg'
+
         const client = new Anthropic({apiKey: process.env.ANTHROPIC_API_KEY})
         const response = await client.messages.create({
             model: 'claude-opus-4-5',
@@ -20,7 +26,7 @@ async function updateMenu(formData) {
             messages: [{
                 role: 'user',
                 content: [
-                    {type: 'image', source: {type: 'url', url: imageUrl}},
+                    {type: 'image', source: {type: 'base64', media_type: mediaType, data: imageBase64}},
                     {type: 'text', text: PROMPT}
                 ]
             }]
