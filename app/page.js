@@ -9,6 +9,7 @@ import {Suspense} from "react";
 import {Loader} from "../components/loader";
 
 export const revalidate = 0
+export const maxDuration = 60
 
 export default async function Home() {
     return (

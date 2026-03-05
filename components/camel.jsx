@@ -80,7 +80,7 @@ export async function Camel() {
                                 aktualizováno {new Date(menu.updatedAt).toLocaleDateString('cs-CZ')}
                             </span>
                         )}
-                        <a href="https://www.facebook.com/CamelRestauraceBrno" target="_blank" rel="noopener noreferrer">web</a>
+                        <a href="https://www.facebook.com/profile.php?id=61578163988783" target="_blank" rel="noopener noreferrer">web</a>
                     </span>
                 </div>
                 <hr className="mt-0 mb-2"/>
