@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
+import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
 
 async function getResult() {
@@ -40,7 +41,7 @@ async function getResult() {
 export async function Nepal() {
   let result
   try {
-    result = await getResult()
+    result = await getCachedMenu('nepal-menu', getResult)
   } catch {
     return <ErrorCard name="Nepal" />
   }

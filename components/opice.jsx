@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {decode} from "iconv-lite";
 import {markTomato} from "../utils/tomato";
+import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
 
 async function getResult() {
@@ -43,7 +44,7 @@ function removeFirst(text) {
 export async function Opice() {
   let result
   try {
-    result = await getResult()
+    result = await getCachedMenu('opice-menu', getResult)
   } catch {
     return <ErrorCard name="U 3 opic" />
   }

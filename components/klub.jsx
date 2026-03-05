@@ -2,6 +2,7 @@ import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
 import {normalize} from "../utils/normalize";
+import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
 
 async function getResult() {
@@ -38,7 +39,7 @@ async function getResult() {
 export async function Klub() {
   let result
   try {
-    result = await getResult()
+    result = await getCachedMenu('klub-menu', getResult)
   } catch {
     return <ErrorCard name="Klub cestovatelů" />
   }

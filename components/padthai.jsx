@@ -1,6 +1,7 @@
 import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
+import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
 
 function extractJsValue(content, declaration, openChar, closeChar) {
@@ -64,7 +65,7 @@ async function getResult() {
 export async function PadThai() {
   let result
   try {
-    result = await getResult()
+    result = await getCachedMenu('padthai-menu', getResult)
   } catch {
     return <ErrorCard name="Pad Thai" />
   }
