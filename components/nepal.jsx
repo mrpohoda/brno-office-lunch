@@ -50,7 +50,7 @@ export async function Nepal() {
 
   return (
       <div className="col-md-6">
-        <div className="border-start border-3 border-warning ps-3 mb-4">
+        <div className="border-start border-3 border-warning ps-3 mb-4" style={{background: 'rgba(255,193,7,0.08)', borderRadius: '0 6px 6px 0', padding: '10px 10px 10px 12px'}}>
           <div className="d-flex justify-content-between align-items-baseline mb-1">
             <strong>Nepal</strong>
             <span className="text-muted small">774 184 422 · <a href="https://nepalbrno.cz/NepalBrno/poledni.php" target="_blank" rel="noopener noreferrer">web</a></span>

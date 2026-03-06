@@ -48,7 +48,7 @@ export async function Klub() {
 
   return (
       <div className="col-md-6">
-        <div className="border-start border-3 border-success ps-3 mb-4">
+        <div className="border-start border-3 border-success ps-3 mb-4" style={{background: 'rgba(25,135,84,0.06)', borderRadius: '0 6px 6px 0', padding: '10px 10px 10px 12px'}}>
           <div className="d-flex justify-content-between align-items-baseline mb-1">
             <strong>Klub cestovatelů</strong>
             <span className="text-muted small">774 048 589 · <a href="https://www.klubcestovatelubrno.cz/denni-menu/" target="_blank" rel="noopener noreferrer">web</a></span>

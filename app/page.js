@@ -18,9 +18,9 @@ export default async function Home() {
                 <Suspense fallback={<Loader />}><Racek /></Suspense>
                 <Suspense fallback={<Loader />}><Opice /></Suspense>
                 <Suspense fallback={<Loader />}><Klub /></Suspense>
-                <Suspense fallback={<Loader />}><Nepal /></Suspense>
-                <Suspense fallback={<Loader />}><PadThai /></Suspense>
                 <Suspense fallback={<Loader />}><Camel /></Suspense>
+                <Suspense fallback={<Loader />}><PadThai /></Suspense>
+                <Suspense fallback={<Loader />}><Nepal /></Suspense>
             </div>
         </div>
     )

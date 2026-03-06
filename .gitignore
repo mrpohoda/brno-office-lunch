@@ -58,3 +58,7 @@ id_rsa
 .yarn
 .yarnrc.yml
 
+.env.local
+.env*.local
+.claude/
+

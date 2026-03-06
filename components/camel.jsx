@@ -72,7 +72,7 @@ export async function Camel() {
 
     return (
         <div className="col-md-6">
-            <div className="border-start border-3 border-secondary ps-3 mb-4">
+            <div className="border-start border-3 border-secondary ps-3 mb-4" style={{background: 'rgba(108,117,125,0.06)', borderRadius: '0 6px 6px 0', padding: '10px 10px 10px 12px'}}>
                 <div className="d-flex justify-content-between align-items-baseline mb-1">
                     <strong>Camel</strong>
                     <span className="text-muted small">

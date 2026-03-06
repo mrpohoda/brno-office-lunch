@@ -74,7 +74,7 @@ export async function PadThai() {
 
   return (
       <div className="col-md-6">
-        <div className="border-start border-3 border-info ps-3 mb-4">
+        <div className="border-start border-3 border-info ps-3 mb-4" style={{background: 'rgba(13,202,240,0.07)', borderRadius: '0 6px 6px 0', padding: '10px 10px 10px 12px'}}>
           <div className="d-flex justify-content-between align-items-baseline mb-1">
             <strong>Pad Thai</strong>
             <span className="text-muted small"><a href="https://padthairestaurace.cz/denni-menu" target="_blank" rel="noopener noreferrer">web</a></span>

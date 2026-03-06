@@ -50,7 +50,7 @@ export async function Racek() {
 
   return (
       <div className="col-md-6">
-        <div className="border-start border-3 border-danger ps-3 mb-4">
+        <div className="border-start border-3 border-danger ps-3 mb-4" style={{background: 'rgba(220,53,69,0.06)', borderRadius: '0 6px 6px 0', padding: '10px 10px 10px 12px'}}>
           <div className="d-flex justify-content-between align-items-baseline mb-1">
             <strong>Racek</strong>
             <span className="text-muted small">774 052 002 · <a href="https://www.restauraceracek.cz/tydenni-menu/" target="_blank" rel="noopener noreferrer">web</a></span>
