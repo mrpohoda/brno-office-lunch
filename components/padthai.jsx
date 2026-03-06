@@ -3,6 +3,7 @@ import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
 import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
+import {VoteSection} from "./vote-section";
 
 function extractJsValue(content, declaration, openChar, closeChar) {
   const startIdx = content.indexOf(declaration)
@@ -107,6 +108,7 @@ export async function PadThai() {
               {dish.desc && <div className="text-muted small">{dish.desc}</div>}
             </div>
           ))}
+          <VoteSection restaurantKey="padthai" />
         </div>
       </div>
   )

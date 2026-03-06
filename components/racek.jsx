@@ -3,6 +3,7 @@ import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
 import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
+import {VoteSection} from "./vote-section";
 
 async function getResult() {
   const urlRacek = 'https://www.restauraceracek.cz/tydenni-menu/';
@@ -63,6 +64,7 @@ export async function Racek() {
               <span className="text-nowrap flex-shrink-0">{dish.price}</span>
             </div>
           ))}
+          <VoteSection restaurantKey="racek" />
         </div>
       </div>
   )

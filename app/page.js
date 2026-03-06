@@ -5,6 +5,7 @@ import {Klub} from "../components/klub";
 import {Nepal} from "../components/nepal";
 import {PadThai} from "../components/padthai";
 import {Camel} from "../components/camel";
+import {SimpleRestaurant} from "../components/simple-restaurant";
 import {Suspense} from "react";
 import {Loader} from "../components/loader";
 
@@ -21,6 +22,9 @@ export default async function Home() {
                 <Suspense fallback={<Loader />}><Camel /></Suspense>
                 <Suspense fallback={<Loader />}><PadThai /></Suspense>
                 <Suspense fallback={<Loader />}><Nepal /></Suspense>
+                <SimpleRestaurant name="Starý Vietnam" restaurantKey="stary-vietnam" />
+                <SimpleRestaurant name="Nový Vietnam" restaurantKey="novy-vietnam" />
+                <SimpleRestaurant name="Kuchyňka" restaurantKey="kuchynka" />
             </div>
         </div>
     )

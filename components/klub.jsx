@@ -4,6 +4,7 @@ import {markTomato} from "../utils/tomato";
 import {normalize} from "../utils/normalize";
 import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
+import {VoteSection} from "./vote-section";
 
 async function getResult() {
   const dayIndex = new Date().getDay() - 1;
@@ -67,6 +68,7 @@ export async function Klub() {
               <span className="text-nowrap flex-shrink-0">{['149,-', '154,-', '159,-'][i] ?? ''}</span>
             </div>
           ))}
+          <VoteSection restaurantKey="klub" />
         </div>
       </div>
   )

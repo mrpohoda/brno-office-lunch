@@ -2,6 +2,7 @@ import {getRedis} from '../utils/redis'
 import {revalidatePath} from 'next/cache'
 import Anthropic from '@anthropic-ai/sdk'
 import axios from 'axios'
+import {VoteSection} from './vote-section'
 
 const PROMPT = `Přečti týdenní jídelníček z tohoto obrázku.
 Vrať POUZE validní JSON v tomto formátu (bez markdown bloku, bez komentářů):
@@ -124,6 +125,7 @@ export async function Camel() {
                         </form>
                     </>
                 )}
+                <VoteSection restaurantKey="camel" />
             </div>
         </div>
     )

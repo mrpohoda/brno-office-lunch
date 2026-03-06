@@ -4,6 +4,7 @@ import {decode} from "iconv-lite";
 import {markTomato} from "../utils/tomato";
 import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
+import {VoteSection} from "./vote-section";
 
 async function getResult() {
   const urlOpice = 'https://www.u3opic.cz/denni-menu/';
@@ -66,6 +67,7 @@ export async function Opice() {
               <span className="text-nowrap flex-shrink-0">{dish.price}</span>
             </div>
           ))}
+          <VoteSection restaurantKey="opice" />
         </div>
       </div>
   )
