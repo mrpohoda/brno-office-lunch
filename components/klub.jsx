@@ -8,33 +8,43 @@ import {VoteSection} from "./vote-section";
 
 async function getResult() {
   const dayIndex = new Date().getDay() - 1;
-  const days = ['pondělí', 'úterý', 'středa', 'čtvrtek', 'pátek']
+  const dataDays = ['pondeli', 'utery', 'streda', 'ctvrtek', 'patek'];
 
   const urlKlub = 'https://www.klubcestovatelubrno.cz/denni-menu/';
-  const klubData = await loadData(urlKlub)
-  if (!klubData) return null
-  const $klub = cheerio.load(klubData)
+  const mainData = await loadData(urlKlub);
+  if (!mainData) return null;
+  const $main = cheerio.load(mainData);
 
-  const tydenni = $klub('strong:contains("Týdenní nabídka")').closest('p')
-  let tydenNazev = '', tydenCena = ''
-  if (tydenni.length) {
-    const strongy = tydenni.find('strong')
-    tydenNazev = strongy.first().text().replace('Týdenní nabídka:', '').trim()
-    tydenCena = strongy.last().text().trim()
+  const iframeSrc = $main('iframe#menu-frame').attr('src');
+  if (!iframeSrc) return null;
+
+  const embedData = await loadData(iframeSrc);
+  if (!embedData) return null;
+  const $ = cheerio.load(embedData);
+
+  const daySlug = dataDays[dayIndex];
+  const dayBlock = $(`[data-day="${daySlug}"]`);
+  if (!dayBlock.length) return { polevka: '', dishes: [], tydenNazev: '', tydenCena: '' };
+
+  const polevka = normalize(dayBlock.find('.soup-name').text());
+
+  const dishes = [];
+  dayBlock.find('.dish-name').each((i, el) => {
+    dishes.push($(el).text().trim());
+  });
+
+  let tydenNazev = '', tydenCena = '';
+  const specialEl = $('.special-block .special-text');
+  if (specialEl.length) {
+    const specialClone = specialEl.clone();
+    tydenCena = specialClone.find('.special-price').text().replace(/[·\s]+/, '').trim();
+    specialClone.find('.special-price').remove();
+    tydenNazev = specialClone.text().trim();
   }
 
-  const klubCurrentDay = $klub("h3:contains(" + days[dayIndex] + ")")
-  const polevka = normalize(klubCurrentDay.next().text())
-
-  const dishes = []
-  klubCurrentDay.nextAll('ol').first().find('li').each((i, li) => {
-    dishes.push($klub(li).text().trim())
-  })
-
-  const result = { polevka, dishes, tydenNazev, tydenCena }
-  markTomato(result)
-
-  return result
+  const result = { polevka, dishes, tydenNazev, tydenCena };
+  markTomato(result);
+  return result;
 }
 
 export async function Klub() {

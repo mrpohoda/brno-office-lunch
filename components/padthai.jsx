@@ -1,61 +1,36 @@
-import * as cheerio from 'cheerio';
 import {loadData} from "../utils/load";
 import {markTomato} from "../utils/tomato";
 import {getCachedMenu} from "../utils/menuCache";
 import {ErrorCard} from "./error-card";
 import {VoteSection} from "./vote-section";
 
-function extractJsValue(content, declaration, openChar, closeChar) {
-  const startIdx = content.indexOf(declaration)
-  if (startIdx === -1) return null
-  const valStart = content.indexOf(openChar, startIdx)
-  if (valStart === -1) return null
-
-  let depth = 0, endIdx = -1
-  for (let i = valStart; i < content.length; i++) {
-    if (content[i] === openChar) depth++
-    else if (content[i] === closeChar) { depth--; if (depth === 0) { endIdx = i; break } }
-  }
-  if (endIdx === -1) return null
-
-  try {
-    return new Function('return ' + content.substring(valStart, endIdx + 1))()
-  } catch {
-    return null
-  }
-}
 
 async function getResult() {
   const dayIndex = new Date().getDay() // 1=Po, 2=Út, ... 5=Pá
 
-  const urlPadThai = 'https://padthairestaurace.cz/denni-menu'
-  const html = await loadData(urlPadThai)
-  if (!html) return null
+  const jsonText = await loadData('https://padthairestaurace.cz/data.json')
+  if (!jsonText) return null
 
-  const $padThai = cheerio.load(html)
+  let json
+  try {
+    json = typeof jsonText === 'string' ? JSON.parse(jsonText) : jsonText
+  } catch {
+    return null
+  }
 
-  let dataMenu = null, weeklySpecials = null
-  $padThai('script').each((i, el) => {
-    const content = $padThai(el).html() || ''
-    if (!content.includes('dataMenu') && !content.includes('weeklySpecials')) return
+  const day = json.days?.[String(dayIndex)]
+  if (!day) return { polevka: '', dishes: [], weeklySpecials: [] }
 
-    if (!dataMenu) dataMenu = extractJsValue(content, 'const dataMenu =', '{', '}')
-    if (!weeklySpecials) weeklySpecials = extractJsValue(content, 'const weeklySpecials =', '[', ']')
-  })
-
-  if (!dataMenu || !dataMenu[dayIndex]) return { polevka: '', dishes: [], weeklySpecials: [] }
-
-  const day = dataMenu[dayIndex]
-  const polevka = day.Polevka?.name || ''
-  const dishes = (day.HlavniChody || []).map(item => ({
-    name: item.name,
-    desc: item.desc || '',
-    price: item.price + ',-'
+  const polevka = day.polevka?.cs?.name || ''
+  const dishes = (day.hlavniChody || []).map(h => ({
+    name: h.cs?.name || '',
+    desc: h.cs?.desc || '',
+    price: h.price + ',-'
   }))
-  const specials = (weeklySpecials || []).map(item => ({
-    name: item.name,
-    desc: item.desc || '',
-    price: item.price + ',-'
+  const specials = (json.weeklySpecials || []).map(s => ({
+    name: s.cs?.name || '',
+    desc: s.cs?.desc || '',
+    price: s.price + ',-'
   }))
 
   const result = { polevka, dishes, weeklySpecials: specials }
